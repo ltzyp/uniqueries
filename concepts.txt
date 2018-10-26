@@ -1,0 +1,47 @@
+generate scaffold qbuilder object:string address:string fields:string groups:string aggregates:string moment:datetime author:string result:string
+
+
+select #fields,#aggregates.to_fields from #object where #address.to_where group by #groups.to_group  order by #fields.to_order
+
+WhereItem {class , field, criteria}
+  WhereItemValue { class,field,["".empty? ,"".empty?]}
+  WhereItemString { class,field,likexp}
+
+nicer_but_slower_film_list#price[2..4],description[drama..],length[..150],category,rating
+
+
+generate scaffold qparser input:string, source:string,object:string,fields:string,conditions:string,groups:string,aggregates:string,author:string
+class qresolver
+resolve_object
+resolve_field
+resolve_where
+
+object format 
+name[FK]*&Directive?[PK]join1[FK]Directive?*[]join2
+Object directives
+1. Optimizer hints
+----------------------------------------------------------
+field format
+[directive1][directive2]name[range1][range2]format
+parsing order
+1. name
+2. ranges
+3-4. formats & directives
+
+Directives 
+1. Datatypes
+--2. Hints (start with  + ? )
+
+global directives start with '.', local directives start immediately
+
+field list group splitter & - all fields left grouped  
+
+Field parser
+input
+name
+min
+max
+format
+directive
+
+Field parser test
