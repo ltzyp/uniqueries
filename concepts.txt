@@ -1,5 +1,5 @@
-generate scaffold qbuilder object:string address:string fields:string groups:string aggregates:string moment:datetime author:string result:string
-
+generate model qtext parent_id:integer:index text:string  #fields:string groups:string aggregates:string moment:datetime author:string result:string
+generate migration add_type_to_qtext type:string
 
 select #fields,#aggregates.to_fields from #object where #address.to_where group by #groups.to_group  order by #fields.to_order
 
