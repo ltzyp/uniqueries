@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181031193949) do
+ActiveRecord::Schema.define(version: 20181114183030) do
 
   create_table "qbuilders", force: :cascade do |t|
     t.string "object"
@@ -38,13 +38,13 @@ ActiveRecord::Schema.define(version: 20181031193949) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "qtexts", force: :cascade do |t|
+  create_table "syntaxtrees", force: :cascade do |t|
     t.integer "parent_id"
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
-    t.index ["parent_id"], name: "index_qtexts_on_parent_id"
+    t.index ["parent_id"], name: "index_syntaxtrees_on_parent_id"
   end
 
 end

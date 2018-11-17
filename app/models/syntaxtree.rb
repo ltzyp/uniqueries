@@ -1,9 +1,9 @@
-class Qtext < ApplicationRecord
+class Syntaxtree < ApplicationRecord
   belongs_to :parent, optional: true
 
   def parse
     begin
-      tokens =preParse
+      tokens= preParse
       build_children tokens
       save
     rescue Exception=> e
