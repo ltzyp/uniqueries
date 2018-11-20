@@ -1,14 +1,18 @@
 class Syntaxtree < ApplicationRecord
   belongs_to :parent, optional: true
 
-  def parse
+  def create_children
     begin
-      tokens= preParse
-      build_children tokens
+      parse
       save
     rescue Exception=> e
-      log e
+      p e
     end
+  end
+ 
+  def parse
+      tokens= preParse
+      build_children tokens
   end 
 
   def template
@@ -21,7 +25,11 @@ class Syntaxtree < ApplicationRecord
 
 private
   def  preParse
-    return template.match text
+p  "text: " +text 
+p  "template: " + template.to_s
+    sc = text.scan self.template
+ p "scan: "+sc.to_s
+    return sc
   end
 
   def log(e)
