@@ -8,6 +8,16 @@ class SyntaxtreeTest < ActiveSupport::TestCase
        assert st.tape=== 'c'
    end
 
+  test "parse tape to ribbons" do
+    tokens= [ 'c[1-2]','d[..4]','e[5]','g']
+    input_string= tokens.join(',') 
+
+    tp = Tape.new text: input_string, trunk: Trunk.new
+    tp.parse
+    tp.ribbons.zip(tokens){|s,t|  assert s=== t }
+
+  end
+=begin
    test "input string" do
       tokens= ['a:b', 'c[1-2]','d[..4]','e[5]','g']
       input_string= tokens[0]+'#'+tokens[1..-1].join(',') 
@@ -17,6 +27,6 @@ class SyntaxtreeTest < ActiveSupport::TestCase
       st.tape.ribbons.zip tokens[1..-1] {|s,t| p s.text; assert s=== t }
 #       assert st.tape.ribbons=== t okens[1..-1]
    end
-
+=end
 
 end

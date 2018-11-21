@@ -3,9 +3,7 @@ class Tape < Syntaxtree
   has_many :ribbons , foreign_key: :parent_id
 
   def build_children tokens
-p 'build_children: '+tokens.to_s
-    tokens.each { |e| p "tokens for ribbon:"+e.first.to_s; ribbons.build text: e.first }
-p self.ribbons
+    tokens.each { |e| ribbons.build text: e.first }
   end
 
   def template
