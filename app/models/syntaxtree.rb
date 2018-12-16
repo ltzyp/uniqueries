@@ -25,10 +25,7 @@ class Syntaxtree < ApplicationRecord
 
 private
   def  preParse
-#p  "text: " +text 
-#p  "template: " + template.to_s
     sc = text.scan self.template
-# p "scan: "+sc.to_s
     return sc
   end
 

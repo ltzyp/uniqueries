@@ -17,6 +17,17 @@ class SyntaxtreeTest < ActiveSupport::TestCase
     tp.ribbons.zip(tokens){|s,t|  assert s=== t }
 
   end
+
+  test "ribbon " do
+
+    rb = Ribbon.new text: "s[1:3]", tape: Tape.new
+    rb.parse
+    assert rb.columnname=== "s"
+    assert rb.limits[0]=== "1"
+    assert rb.limits[1]=== "3"
+
+  end
+
 =begin
    test "input string" do
       tokens= ['a:b', 'c[1-2]','d[..4]','e[5]','g']
@@ -28,5 +39,9 @@ class SyntaxtreeTest < ActiveSupport::TestCase
 #       assert st.tape.ribbons=== t okens[1..-1]
    end
 =end
+Minitest.after_run do
+  p "after run"
+end
+
 
 end
