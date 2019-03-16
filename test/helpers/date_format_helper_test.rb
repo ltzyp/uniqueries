@@ -3,14 +3,14 @@ require 'test_helper'
 class DateFormatHelperTest < ActiveSupport::TestCase
 
   setup do
-    class DateLanguageStub <DateFormatHelper::DateLanguageAbstract  # ? why need namespace here
+    class DateLanguageStub <DateFormatHelper::DateLanguageBasic  # ? why need namespace here
       def self.formatters; [Year]; end;
-      def self.date_template; 'a%Yb'; end;
+      def template; 'a%Yb'; end;
     end
     DateFormatHelper.setDateLanguage(DateLanguageStub)  # why string don't work?
   end
 
-  test "first date format abstract test" do
+  test "first date format basic test" do
  
     h = DateFormatHelper.new(['2019'])
     assert h.print =="a2019b"                         # want correct name for the method - format?
@@ -32,7 +32,7 @@ class DateFormatHelperSQLiteTest < ActiveSupport::TestCase
   test "first date format SQLite test" do
  
     h = DateFormatHelper.new(['2019','12','3','1','22','5'])
-    assert h.print =="datetime('2019-12-3-1-22-5')"                         # want correct name for the method - format?
+    assert h.print =="datetime('2019-12-03-01-22-05')"                         # want correct name for the method - format?
   end
 
 end

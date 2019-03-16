@@ -1,52 +1,54 @@
-class DateLanguageAbstract
+class DateLanguageBasic
 
   class Formatter
     def template; '%02d'; end
-    def self.printv(value,output)
+    def printv(value,output)
       p signature
-      p self.signature                 
+      p signature                 
       p value                 
       p output
-      output.gsub!('%'+signature,format(self.template,value))
+      output.gsub!('%'+signature,format(template,value))
     end
   end
 
   class Year < Formatter
-    def self.signature; 'Y'; end
-    def self.template; '%d'; end
+    def signature; 'Y'; end
+    def template; '%d'; end
   end
 
   class Month < Formatter
-    def self.signature; 'M'; end
+    def signature; 'M'; end
   end
 
   class Day < Formatter
-    def self.signature; 'D'; end
+    def signature; 'D'; end
   end
 
   class Hour < Formatter
-    def self.signature; 'H'; end
+    def signature; 'H'; end
   end
   
   class Minute < Formatter
-    def self.signature; 'I'; end
+    def signature; 'I'; end
   end
 
   class Second < Formatter
-    def self.signature; 'S'; end
+    def signature; 'S'; end
   end
 
   def self.formatters
     [Year,Month,Day,Hour,Minute,Second]
   end
-  def self.date_template
+  def formatters; self.class.formatters.collect{|c| c.new }; end
+
+  def template
     ''
   end
 
 end
 
-class DateLanguageSQLite < DateLanguageAbstract
-  def self.date_template
+class DateLanguageSQLite < DateLanguageBasic
+  def template
     "datetime('%Y-%M-%D-%H-%I-%S')"
   end
 end
@@ -63,10 +65,11 @@ class DateFormatHelper
     begin
       string= object.to_s
       begin
-         @@date_language = string.classify.constantize
+         languageClass = string.classify.constantize
       rescue
-         @@date_language = (p 'DateLanguage'+string.capitalize).classify.constantize 
+         languageClass = (p 'DateLanguage'+string.capitalize).classify.constantize 
       end
+      @@date_language = languageClass.new
     rescue
       raise 'failed to set date language for:  '+string
     end
@@ -101,7 +104,7 @@ class DateFormatHelper
     self
   end
   def print
-    output= date_language.date_template
+    output= date_language.template
     p date_language
     p output
     registers.each{ | r | r.formatter.printv( r.value,output )}
