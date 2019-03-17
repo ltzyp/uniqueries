@@ -5,7 +5,7 @@ class DateFormatHelperTest < ActiveSupport::TestCase
   setup do
     class DateLanguageStub <DateFormatHelper::DateLanguageBasic  # ? why need namespace here
       def self.formatters; [Year]; end;
-      def template; 'a%Yb'; end;
+      def pattern; 'a%Yb'; end;
     end
     DateFormatHelper.setDateLanguage(DateLanguageStub)  # why string don't work?
   end

@@ -1,39 +1,36 @@
 class DateLanguageBasic
-
+MARK_PREFIX='%'
   class Formatter
-    def template; '%02d'; end
+    def pattern; '%02d'; end
     def printv(value,output)
-      p signature
-      p signature                 
-      p value                 
-      p output
-      output.gsub!('%'+signature,format(template,value))
+
+      output.gsub!(MARK_PREFIX+mark,format(pattern,value))
     end
   end
 
   class Year < Formatter
-    def signature; 'Y'; end
-    def template; '%d'; end
+    def mark; 'Y'; end
+    def pattern; '%d'; end
   end
 
   class Month < Formatter
-    def signature; 'M'; end
+    def mark; 'M'; end
   end
 
   class Day < Formatter
-    def signature; 'D'; end
+    def mark; 'D'; end
   end
 
   class Hour < Formatter
-    def signature; 'H'; end
+    def mark; 'H'; end
   end
   
   class Minute < Formatter
-    def signature; 'I'; end
+    def mark; 'I'; end
   end
 
   class Second < Formatter
-    def signature; 'S'; end
+    def mark; 'S'; end
   end
 
   def self.formatters
@@ -41,14 +38,14 @@ class DateLanguageBasic
   end
   def formatters; self.class.formatters.collect{|c| c.new }; end
 
-  def template
+  def pattern
     ''
   end
 
 end
 
 class DateLanguageSQLite < DateLanguageBasic
-  def template
+  def pattern
     "datetime('%Y-%M-%D-%H-%I-%S')"
   end
 end
@@ -104,7 +101,7 @@ class DateFormatHelper
     self
   end
   def print
-    output= date_language.template
+    output= date_language.pattern
     p date_language
     p output
     registers.each{ | r | r.formatter.printv( r.value,output )}
