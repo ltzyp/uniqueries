@@ -2,35 +2,39 @@ class DateLanguageBasic
 MARK_PREFIX='%'
   class Formatter
     def pattern; '%02d'; end
+    def process(value); value.to_i; end
     def printv(value,output)
+    def mark; MARK_PREFIX+mark_char; end 
+    def zero_default; 0; end;
+    def sysdate_default; Time.now.strftime(mark); end;
 
-      output.gsub!(MARK_PREFIX+mark,format(pattern,value))
+      output.gsub!(mark,format(pattern,value))
     end
   end
 
   class Year < Formatter
-    def mark; 'Y'; end
+    def mark_char; 'Y'; end
     def pattern; '%d'; end
   end
 
   class Month < Formatter
-    def mark; 'M'; end
+    def mark_char; 'm'; end
   end
 
   class Day < Formatter
-    def mark; 'D'; end
+    def mark_char; 'd'; end
   end
 
   class Hour < Formatter
-    def mark; 'H'; end
+    def mark_char; 'H'; end
   end
   
   class Minute < Formatter
-    def mark; 'I'; end
+    def mark_char; 'M'; end
   end
 
   class Second < Formatter
-    def mark; 'S'; end
+    def mark_char; 'S'; end
   end
 
   def self.formatters
@@ -46,7 +50,7 @@ end
 
 class DateLanguageSQLite < DateLanguageBasic
   def pattern
-    "datetime('%Y-%M-%D-%H-%I-%S')"
+    "datetime('%Y-%m-%d-%H-%M-%S')"
   end
 end
 
@@ -92,18 +96,16 @@ class DateFormatHelper
     @registers = []
     
     date_language.formatters.zip(tokens) do | a |
-      registers << Register.new( formatter: a.first, value: a.last )
+      registers << Register.new( formatter: a.first, input: a.last||'' )
     end
   end
 
   def process
-    registers.each{| r | r.value= r.formatter.process r.input }
-    self
+    registers.each{| r | r.value= r.formatter.process r.input; p "#{r.input} #{r.input.class}-> #{r.value} #{r.value.class}" }
+    print
   end
   def print
     output= date_language.pattern
-    p date_language
-    p output
     registers.each{ | r | r.formatter.printv( r.value,output )}
     output
   end

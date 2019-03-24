@@ -13,28 +13,39 @@ class DateFormatHelperTest < ActiveSupport::TestCase
   test "first date format basic test" do
  
     h = DateFormatHelper.new(['2019'])
-    assert h.print =="a2019b"                         # want correct name for the method - format?
+    assert h.process =="a2019b"                         # want correct name for the method - format?
   end
 
   test "second date format abstract test" do
  
     h = DateFormatHelper.new(['209'])
-    assert h.print =="a209b"                         # want correct name for the method - format?
+    assert h.process =="a209b"                         
   end
 end
 
 class DateFormatHelperSQLiteTest < ActiveSupport::TestCase
 
   setup do
-    DateFormatHelper.setDateLanguage(DateLanguageSQLite)  # why string don't work?
+    DateFormatHelper.setDateLanguage(DateLanguageSQLite) 
   end
 
   test "first date format SQLite test" do
  
     h = DateFormatHelper.new(['2019','12','3','1','22','5'])
-    assert h.print =="datetime('2019-12-03-01-22-05')"                         # want correct name for the method - format?
+    assert h.process =="datetime('2019-12-03-01-22-05')"                         
   end
 
+ test " date format default year test" do
+ 
+    h = DateFormatHelper.new(['','1','3','1','22','5'])
+    assert h.process =="datetime('2019-01-03-01-22-05')"                         
+  end
+
+ test "first date format default minute test" do
+ 
+    h = DateFormatHelper.new(['2019','12','3','1'])
+    assert h.process =="datetime('2019-12-03-01-00-00')"                         
+  end
 end
 
 =begin
