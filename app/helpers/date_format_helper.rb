@@ -2,11 +2,18 @@ class DateLanguageBasic
 MARK_PREFIX='%'
   class Formatter
     def pattern; '%02d'; end
-    def process(value); value.to_i; end
+    def process(value,state)
+      i =  value.to_i
+      if (i.zero?)
+        p state
+        i = send state[:zero_handler] 
+      end 
+      i
+    end
     def printv(value,output)
     def mark; MARK_PREFIX+mark_char; end 
     def zero_default; 0; end;
-    def sysdate_default; Time.now.strftime(mark); end;
+    def sysdate_default; Time.now.strftime(mark).to_i; end;
 
       output.gsub!(mark,format(pattern,value))
     end
@@ -101,7 +108,12 @@ class DateFormatHelper
   end
 
   def process
-    registers.each{| r | r.value= r.formatter.process r.input; p "#{r.input} #{r.input.class}-> #{r.value} #{r.value.class}" }
+    state = {zero_handler: :sysdate_default}
+    registers.each do | r |         
+        r.value= r.formatter.process( r.input,state)
+        state[:zero_handler]= :zero_default  if r.value.nonzero?
+        p "#{r.input} #{r.input.class}-> #{r.value} #{r.value.class}" 
+    end    
     print
   end
   def print
