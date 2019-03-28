@@ -41,6 +41,18 @@ class DateFormatHelperSQLiteTest < ActiveSupport::TestCase
     assert h.process =="datetime('2019-01-03-01-22-05')"                         
   end
 
+ test " date format month range test" do
+ 
+    h = DateFormatHelper.new(['2019','','3','1','22','5'])
+    assert h.process =="datetime('2019-01-03-01-22-05')"                         
+  end
+
+ test " date format day range test" do
+ 
+    h = DateFormatHelper.new(['2019','11','','1','22','5'])
+    assert h.process =="datetime('2019-11-01-01-22-05')"                         
+  end
+
  test "first date format default minute test" do
  
     h = DateFormatHelper.new(['2019','12','3','1'])

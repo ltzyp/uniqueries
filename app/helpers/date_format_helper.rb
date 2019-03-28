@@ -5,18 +5,19 @@ MARK_PREFIX='%'
     def process(value,state)
       i =  value.to_i
       if (i.zero?)
-        p state
-        i = send state[:zero_handler] 
+         i = send state[:zero_handler] 
       end 
       i
     end
-    def printv(value,output)
-    def mark; MARK_PREFIX+mark_char; end 
-    def zero_default; 0; end;
-    def sysdate_default; Time.now.strftime(mark).to_i; end;
-
+    def printv(value,output)  
       output.gsub!(mark,format(pattern,value))
     end
+    def mark; MARK_PREFIX+mark_char; end
+    def min_value; 0; end; 
+    def zero_default; min_value; end;
+    def sysdate_default; Time.now.strftime(mark).to_i; end;
+
+
   end
 
   class Year < Formatter
@@ -26,10 +27,12 @@ MARK_PREFIX='%'
 
   class Month < Formatter
     def mark_char; 'm'; end
+    def min_value; 1; end;
   end
 
   class Day < Formatter
     def mark_char; 'd'; end
+    def min_value; 1; end;
   end
 
   class Hour < Formatter
