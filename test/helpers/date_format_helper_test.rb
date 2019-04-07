@@ -23,6 +23,7 @@ class DateFormatHelperTest < ActiveSupport::TestCase
   end
 end
 
+
 class DateFormatHelperSQLiteTest < ActiveSupport::TestCase
 
   setup do
