@@ -1,8 +1,67 @@
 class NumberDateParser
-  TOKENS_SEPARATOR = '.'
-  MARK_PREFIX='%'
   attr_accessor :input,:value,:tokens
   attr_reader :registers
+
+  TOKENS_SEPARATOR = '.'
+  def self.for string
+    case string.count(TOKENS_SEPARATOR)
+    when 0..1; return NumberParser.new (string)
+    when 2..6; return DateParser.new (string)
+    end
+    raise 'Cannot parse '+string
+  end
+ 
+  def convert
+    build_tokens
+    build_registers
+    process
+  end 
+
+private
+  def build_tokens
+    @tokens= input.split TOKENS_SEPARATOR
+  end
+
+  def build_registers
+    @registers = []
+    tokens.zip(self.class.formatters)  do | a |
+p "formatters "+ a.first.to_s+a.last.to_s
+      registers << a.last.new(token: a.first)
+    end
+  end
+
+  def process
+    state= {zero_handler: :sysdate_default}
+    a = registers.map do |e | 
+      e.process(state);
+      state[:zero_handler]=:zero_default if e.value.nonzero?
+      e.value;
+    end
+    @value = value_constructor( a )
+  end
+
+
+  def initialize( string)
+    @input= string
+    @tokens = []
+  end
+
+end
+
+
+class NumberParser < NumberDateParser
+  def convert
+    @value= @input.to_f
+  end
+
+  def valueConstructor(a)
+    a.first + a.last    
+  end
+end
+
+
+class DateParser < NumberDateParser
+  MARK_PREFIX='%'
 
   class Formatter
     attr_accessor :token,:value
@@ -29,7 +88,6 @@ class NumberDateParser
     end
  
   end
-
   
   @@formatters = [ :Year,:month,:day,:Hour,:Minute,:Second].inject( []) do  | s, sym |
      s << ( self.class_eval <<-CLASS_DEF
@@ -44,40 +102,12 @@ class NumberDateParser
 #  Formatters = [Formatter]*6
   def self.formatters; @@formatters; end
 
-  def initialize( string)
-    @input= string
-    @tokens = []
+  def value_constructor a
+    DateTime.new *a
   end
 
-  def convert
-    build_tokens
-    build_registers
-    process
-  end 
 
   def to_SQLite
     value.strftime"datetime('%Y-%m-%d-%H-%M-%S')"
-  end
-private
-  def build_tokens
-    @tokens= input.split TOKENS_SEPARATOR
-  end
-
-  def build_registers
-    @registers = []
-    tokens.zip(self.class.formatters)  do | a |
-p "formatters "+ a.first.to_s+a.last.to_s
-      registers << a.last.new(token: a.first)
-    end
-  end
-
-  def process
-    state= {zero_handler: :sysdate_default}
-    a = registers.map do |e | 
-      e.process(state);
-      state[:zero_handler]=:zero_default if e.value.nonzero?
-      e.value;
-    end
-    @value = DateTime.new *a
   end
 end
