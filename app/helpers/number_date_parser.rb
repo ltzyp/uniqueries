@@ -101,6 +101,7 @@ class DateParser < NumberDateParser
   end
 #  Formatters = [Formatter]*6
   def self.formatters; @@formatters; end
+  def self.all_formatter_marks; formatters.map{|e| e.mark_char}.join; end
 
   def value_constructor a
     DateTime.new *a

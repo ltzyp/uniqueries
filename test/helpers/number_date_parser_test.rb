@@ -5,8 +5,19 @@ class NumberDateParserTest < ActiveSupport::TestCase
   setup do
   end
 
+  test "class choice" do
+    n0 = NumberDateParser.for '1'
+    assert n0.class==NumberParser
+    n1 = NumberDateParser.for '0.1'
+    assert n1.class==NumberParser
+
+    d = NumberDateParser.for '1.2.3'
+    assert d.class==DateParser  
+
+  end
+
   test "Formatters" do
-     s= (DateParser.formatters.map{|e| e.mark_char}).join
+     s= DateParser.all_formatter_marks
     assert s  == 'YmdHMS'
 
   end 
