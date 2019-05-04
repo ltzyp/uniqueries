@@ -1,61 +1,11 @@
-class AbstractParser 
-  attr_accessor :input,:value,:tokens
-  attr_reader :registers
-  def self.tokens_separator
-    '.'
-  end 
- 
-  def convert
-    build_tokens
-    build_registers
-    process
-  end 
+require 'number_date_parser'
+
+class ValueRangeParser < ParserAbstract
 
 private
-
-  def initialize( string)
-    @input= string
-    @tokens = []
-  end
-
   def build_tokens
-    @tokens= input.split self.class.tokens_separator
+    @tokens= input.split TOKENS_SEPARATOR
   end
-
-end
-
-class NumberDateParser < AbstractParser
-
-  def self.for string
-    case string.count(tokens_separator)
-    when 0..1; return NumberParser.new (string)
-    when 2..6; return DateParser.new (string)
-    end
-    raise 'Cannot parse '+string
-  end
- 
-
-private
-
-  def build_registers
-    @registers = []
-    tokens.zip(self.class.formatters)  do | a |
-p "formatters "+ a.first.to_s+a.last.to_s
-      registers << a.last.new(token: a.first)
-    end
-  end
-
-  def process
-    state= {zero_handler: :sysdate_default}
-    a = registers.map do |e | 
-      e.process(state);
-      state[:zero_handler]=:zero_default if e.value.nonzero?
-      e.value;
-    end
-    @value = value_constructor( a )
-  end
-
-
 
 end
 
