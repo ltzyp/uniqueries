@@ -13,14 +13,10 @@ class NumberDateParserTest < ActiveSupport::TestCase
 
     d = NumberDateParser.for '1.2.3'
     assert d.class==DateParser  
-
-  end
-
-  test "Formatters" do
-     s= DateParser.all_formatter_marks
+     s= d.class.all_formatter_marks
     assert s  == 'YmdHMS'
 
-  end 
+  end
  
  test"Basic Test" do
     d = NumberDateParser.for '2018.02.11.02.03.01'

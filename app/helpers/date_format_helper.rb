@@ -78,7 +78,7 @@ class DateFormatHelper
       begin
          languageClass = string.classify.constantize
       rescue
-         languageClass = (p 'DateLanguage'+string.capitalize).classify.constantize 
+         languageClass = ('DateLanguage'+string.capitalize).classify.constantize 
       end
       @@date_language = languageClass.new
     rescue
@@ -115,7 +115,6 @@ class DateFormatHelper
     registers.each do | r |         
         r.value= r.formatter.process( r.input,state)
         state[:zero_handler]= :zero_default  if r.value.nonzero?
-        p "#{r.input} #{r.input.class}-> #{r.value} #{r.value.class}" 
     end    
     print
   end

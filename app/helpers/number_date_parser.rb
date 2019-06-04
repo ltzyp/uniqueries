@@ -1,31 +1,9 @@
-class AbstractParser 
-  attr_accessor :input,:value,:tokens
-  attr_reader :registers
+require 'base_parser'
+
+class NumberDateParser < BaseParser
   def self.tokens_separator
     '.'
   end 
- 
-  def convert
-    build_tokens
-    build_registers
-    process
-  end 
-
-private
-
-  def initialize( string)
-    @input= string
-    @tokens = []
-  end
-
-  def build_tokens
-    @tokens= input.split self.class.tokens_separator
-  end
-
-end
-
-class NumberDateParser < AbstractParser
-
   def self.for string
     case string.count(tokens_separator)
     when 0..1; return NumberParser.new (string)
@@ -37,37 +15,14 @@ class NumberDateParser < AbstractParser
 
 private
 
-  def build_registers
-    @registers = []
-    tokens.zip(self.class.formatters)  do | a |
-p "formatters "+ a.first.to_s+a.last.to_s
-      registers << a.last.new(token: a.first)
-    end
-  end
-
-  def process
-    state= {zero_handler: :sysdate_default}
-    a = registers.map do |e | 
-      e.process(state);
-      state[:zero_handler]=:zero_default if e.value.nonzero?
-      e.value;
-    end
-    @value = value_constructor( a )
-  end
-
-
-
 end
 
 
 class NumberParser < NumberDateParser
-  def convert
+  def direct_convert
     @value= @input.to_f
   end
 
-  def valueConstructor(a)
-    a.first + a.last    
-  end
 end
 
 
@@ -75,7 +30,7 @@ class DateParser < NumberDateParser
   MARK_PREFIX='%'
 
   class Formatter
-    attr_accessor :token,:value
+    attr_accessor :token,:value,:zero_handler
     def initialize(hash)
       hash.each { |k,v| instance_variable_set("@#{k}",v) unless v.nil? }
     end
@@ -88,12 +43,12 @@ class DateParser < NumberDateParser
     def min_value; 0; end; 
     def zero_default; min_value; end;
     def sysdate_default; Time.now.strftime(mark).to_i; end;
-   
-    def process(state)
+    def blank? ; self.token.blank? ; end
+    def convert
       if !token.blank?
         res= token.to_i
       else
-        res=self.send state[:zero_handler]
+        res=self.send self.zero_handler
       end 
       self.value=res
     end
@@ -114,8 +69,26 @@ class DateParser < NumberDateParser
   def self.formatters; @@formatters; end
   def self.all_formatter_marks; formatters.map{|e| e.mark_char}.join; end
 
-  def value_constructor a
-    DateTime.new *a
+  def build_registers
+    @registers = []
+    tokens.zip(self.class.formatters)  do | a |
+      registers << a.last.new(token: a.first)
+    end
+  end
+
+  def convert_registers
+   initialized= false
+    registers.map do | r |
+      r.zero_handler= initialized ? :zero_default : :sysdate_default 
+      r.convert 
+      initialized ||= !r.blank?
+    end
+  end
+
+
+
+  def assembly_value 
+    @value= DateTime.new *(registers.collect{|r| r.value})
   end
 
 
