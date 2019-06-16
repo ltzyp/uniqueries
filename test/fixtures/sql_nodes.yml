@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sql_tree: one
+#  parent_node: one
+  node_class: MyString
+  value: MyString
+  notes: MyString
+
+two:
+  sql_tree: two
+#  parent_node: two
+  node_class: MyString
+  value: MyString
+  notes: MyString

@@ -1,0 +1,58 @@
+channels
+  sql
+    join
+    range
+    group
+  display
+    order 
+    position  
+
+
+select name,surname from employees where age between 10 and 20
+
+table employees
+  column  name
+  column  surname
+  column  age
+    range 10..20
+
+employees.name,surname,range[10~20]
+
+select m.x,m.y,s.name from locations m join objects s using(object_id) 
+  where (x**2+y**2)<10
+
+relation R1
+  peer object_id
+    position invisible
+  table objects
+    column name
+       position last
+  table locations
+    column x
+    column y 
+  function F1
+    op +
+      op **
+        arg x
+      op ** 
+        arg y
+  column F2
+    range MININT..10
+
+locations.=,x,y,(x**2+y**2)[~10]*objects.,name
+
+
+SELECT Department,min(salary),max(salary),count(*) FROM employees WHERE Age > 40 
+GROUP BY Department ORDER BY 1,2
+
+table employees
+  column  Department
+  group 1
+  min salary
+  max salary
+  count all
+    order -2
+  position invisible
+  column age
+    range MININT..40
+
