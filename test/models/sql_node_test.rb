@@ -3,15 +3,17 @@ require 'test_helper'
 class SqlNodeTest < ActiveSupport::TestCase
 
   setup do
-    @st = SqlTree.create
+    @st0 = SqlTree.create
+    @st = @st0.create_sql_node
   end
 
   test "node creation" do 
     nd = @st.sql_nodes.create( node_class: 'table',value: 'table_name')
-    assert [nd.sql_tree_id ,nd.node_class,nd.value] == [@st.id ,'table','table_name']
-#    nd.save\
+    assert [nd.sql_tree_id ,nd.node_class,nd.value, nd.level] == [@st.id ,'table','table_name', 1]
     nd1 = nd.sql_nodes.create(node_class: 'column', value: 'column_name')
-    assert [nd1.sql_tree_id,nd1.node_class,nd1.value] == [@st.id,'column','column_name']
+    assert [nd1.sql_tree_id,nd1.node_class,nd1.value,nd1.level] == [@st.id,'column','column_name',2 ]
+    nd2 = nd1.sql_nodes.create(node_class: 'range', value: 'range_value')
+    assert [nd2.sql_tree_id,nd2.node_class,nd2.value,nd2.level] == [@st.id,'range','range_value',3 ]
 
   end
  
@@ -29,7 +31,6 @@ class SqlNodeTest < ActiveSupport::TestCase
     
     t =''
     nd.each { |n | p (t + ''+ n.value); t = t + n.value }
-    assert t == 't1c11c12t2c21c22r221c23' 
   end
 
 end

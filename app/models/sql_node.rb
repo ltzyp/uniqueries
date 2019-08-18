@@ -16,6 +16,10 @@ class SqlNode < ApplicationRecord
     end
   end
 
+  def level
+    return 0 unless parent_node
+    return  parent_node.level + 1     
+  end
 private
 
 

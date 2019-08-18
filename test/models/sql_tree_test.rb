@@ -3,27 +3,26 @@ require 'test_helper'
 class SqlTreeTest < ActiveSupport::TestCase
 
   test "SqlTree node classes" do
-    assert SqlTree.all_node_classes.to_set == [:peer,:foreign,:where,:table,:column,:range,:string,:number,:date,:order,:position].to_set
+    assert SqlTree.all_node_classes.to_set == [:relation,:peer,:foreign,:where,:table,:column,:range,:string,:number,:date,:order,:position].to_set
   end
 
   test "zero SqlTree" do
-    sqt =  SqlTree.fromLines ''    
+    sqt =  SqlTree.from_lines ''    
     assert sqt.size == 0 
     assert sqt.depth == 0 
-    assert sqt.tables == '' 
+   assert sqt.tables == '' 
   end
 
   test "one table SqlTree" do
-    sqt =  SqlTree.fromLines 'table tab'
-    assert sqt.size == 1 
+    sqt =  SqlTree.from_lines 'table tab'
+    assert sqt.size == 1
     assert sqt.depth == 1
     assert sqt.tables == 'tab' 
   end
 
 
   test "create SqlTree from lines test" do
-
-    sqt = SqlTest.from_lines  <<-SIMPLE_FROM_LINES
+    sqt = SqlTree.from_lines  <<-SIMPLE_FROM_LINES
 table employees
   column  name
   column  surname
