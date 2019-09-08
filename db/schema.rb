@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190613154833) do
+ActiveRecord::Schema.define(version: 20190908165508) do
+
+  create_table "context_nodes", force: :cascade do |t|
+    t.integer "context_tree_id"
+    t.integer "parent_id"
+    t.string "node_class"
+    t.string "value"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "context"
+    t.index ["context_tree_id"], name: "index_context_nodes_on_context_tree_id"
+    t.index ["parent_id"], name: "index_context_nodes_on_parent_id"
+  end
+
+  create_table "context_trees", force: :cascade do |t|
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "qbuilders", force: :cascade do |t|
     t.string "object"
@@ -34,24 +53,6 @@ ActiveRecord::Schema.define(version: 20190613154833) do
     t.string "groups"
     t.string "aggregates"
     t.string "author"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sql_nodes", force: :cascade do |t|
-    t.integer "sql_tree_id"
-    t.integer "parent_id"
-    t.string "node_class"
-    t.string "value"
-    t.string "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["parent_id"], name: "index_sql_nodes_on_parent_id"
-    t.index ["sql_tree_id"], name: "index_sql_nodes_on_sql_tree_id"
-  end
-
-  create_table "sql_trees", force: :cascade do |t|
-    t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

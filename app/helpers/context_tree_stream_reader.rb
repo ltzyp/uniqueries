@@ -1,15 +1,15 @@
-class SqlTreeStreamReader
+class ContextTreeStreamReader
   attr_reader  :indents
   attr_accessor  :active_page
   
-  def self.for( sql_tree)
-    self.new( sql_tree.sql_node )
+  def self.on( context_tree)
+    self.new( context_tree.context_node )
   end
 
-  def initialize sql_node
+  def initialize context_node
 p initialize
     @indents =[0]
-    @active_page = sql_node.sql_nodes
+    @active_page = context_node.context_nodes
   end
 
   def next_page indent
@@ -19,7 +19,7 @@ p initialize
     end
     if indent>indents.last
       indents.push indent
-      self.active_page= self.active_page.last.sql_nodes
+      self.active_page= self.active_page.last.context_nodes
     end
     return @active_page 
   end

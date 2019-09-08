@@ -1,5 +1,5 @@
-class SqlTree < ApplicationRecord
-  has_one :sql_node 
+class ContextTree < ApplicationRecord
+  has_one :context_node 
 
   def self.all_node_classes
     [:relation,:peer,:foreign,:where,:table,:column,:range,:string,:number,:date,:order,:position]
@@ -11,8 +11,8 @@ class SqlTree < ApplicationRecord
   def self.from_lines stream
   line_template = /(\s*)(\w+)\s*(\w*)/
     st = self.create
-    st.create_sql_node node_class: 'relation'
-    tree_controller = SqlTreeStreamReader.on st  
+    st.create_context_node node_class: 'relation'
+    tree_controller = ContextTreeStreamReader.on st  
     stream.each_line do  | l |
       tokens = (l.scan line_template).first
       indent =  tokens.first.size
@@ -23,7 +23,7 @@ class SqlTree < ApplicationRecord
   end
 
   def each &block
-    sql_node.each( &block )     
+    context_node.each( &block )     
   end 
 
   def size
