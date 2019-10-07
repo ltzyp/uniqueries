@@ -3,13 +3,13 @@ class ContextTreeStreamReader
   attr_accessor  :active_page
   
   def self.on( context_tree)
-    self.new( context_tree.context_node )
+    nt = self.new
+    nt.active_page= context_tree.context_node
+    nt 
   end
 
-  def initialize context_node
-p initialize
+  def initialize
     @indents =[0]
-    @active_page = context_node.context_nodes
   end
 
   def next_page indent
@@ -19,7 +19,7 @@ p initialize
     end
     if indent>indents.last
       indents.push indent
-      self.active_page= self.active_page.last.context_nodes
+      self.active_page= self.active_page.context_nodes.last
     end
     return @active_page 
   end

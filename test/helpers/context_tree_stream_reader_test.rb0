@@ -23,7 +23,7 @@ class ContextTreeStreamReader < ActiveSupport::TestCase
     @sns1.context_nodes= [@sns11,@sns12]
     @sns2.context_nodes= [@sns21,@sns22]
 
-    @sr = ContextTreeStreamReader.new( @sns)
+    @sr = ContextTreeStreamReader.new
   end
 
   test "tree stream reader active path" do

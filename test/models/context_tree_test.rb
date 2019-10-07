@@ -18,6 +18,7 @@ class ContextTreeTest < ActiveSupport::TestCase
     assert sqt.size == 1
     assert sqt.depth == 1
     assert sqt.tables == 'tab' 
+    assert sqt.context_node.context_tree.id == sqt.id
   end
 
 

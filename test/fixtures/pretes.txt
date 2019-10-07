@@ -1,0 +1,105 @@
+select f3,f4  from t where f1=1 and f2 ='aa' order by f3,f4;
+t.f1[1],f2[aa]<|,f3,f4
+table t
+position top
+column f1
+  where 1
+column f2
+  where aa
+position 0
+column f3
+column f4
+
+f1 table: t,  where: 1, position: -2
+f2 table: t,  where: aa, position: -1 
+f3 table: t,   position: 1 
+f4 table: t,   position: 2 
+
+--------------------------------------------------------
+
+select f1,f2,f3,sum(f4) from t where f1 between 1 and 10 and f2 like 'aa%' group by f1,f2,f3 order by f1,f2;
+t.f1[1~10],f2[aa~],f3|,f4++
+table t
+{group 1 on}
+column f1
+  where 1~10
+column f2
+  where aa~
+column f3
+group  1 off
+column f4
+  aggregate  sum
+
+f1 table: t, group: 1, where: 1~10, position: 1
+f2 table: t, group: 1, where: aa~   position: 2
+f3 table: t, group: 1,  order: 3
+f4 table: t, order: 4, aggregate: sum
+------------------------------------------------------------------------------
+
+select f1,f2,f3,min(f4-f3) f4 from t where f2>f1 group by f1,f2,f3 order by f4,f1,f2,f3
+t.f1,f2[f1~],f3|,<<f4{f4-f3}
+table t
+(group 1 on)
+column f1
+column f2
+column f3
+group 1 off
+function _f4
+  calc f4-f3
+column _f4
+  aggregate min  
+--------------------------------------------------------- 
+select t1.k1,t1.s1,t2.s1 from t1,t2 where t1.k1=t2.k1
+t1.k1,s1#t2.k1[t1.k1]<|,s1
+table t1
+column k1
+column s1
+table t2
+column k1
+  position hidden
+  where @t1.k1
+column s1 
+------------------------------------------------------
+select k1,s1,s1 from t1 join t2 using(k1) 
+{r: t1.k1#t2.k1<|},s1*,*s1
+relation r
+  column k1
+    table t1
+  column k1
+    table t2
+    position hidden
+column s1
+  table t1
+column s1
+  table t2
+__________________________________________
+select substr(s1,1,2) from t where trunc(d1,'mm') =date'2019-02-01'
+t.s1!2,^d1!M[2019.2.]
+table t
+column s1
+  truncate  2
+column d1
+  position  hidden
+  truncate M
+  where '2019-02-01 00:00:00'
+--------------------------------------------
+select n1 from t  where substr(s1,3,4)=substr(s2,-4,4)
+t.n1^,s1!3!4[4!s2]
+table t
+column n1
+position hidden
+column s1
+  ltruncate 3 
+  truncate 4
+column s2
+  rtruncate 4
+  truncate 4
+  where @s1
+
+
+
+
+
+
+
+

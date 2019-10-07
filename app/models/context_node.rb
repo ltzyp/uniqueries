@@ -33,7 +33,7 @@ private
 
   def  copy_context_from_parent
     if parent_node
-      self.context_tree= self.parent_node.context_tree #; self
+      self.context_tree= self.parent_node.context_tree 
       self.context.merge!( parent_node.context||{})
     end
   end

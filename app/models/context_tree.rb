@@ -1,3 +1,4 @@
+require 'context_tree_stream_reader'
 class ContextTree < ApplicationRecord
   has_one :context_node 
 
@@ -12,12 +13,13 @@ class ContextTree < ApplicationRecord
   line_template = /(\s*)(\w+)\s*(\w*)/
     st = self.create
     st.create_context_node node_class: 'relation'
-    tree_controller = ContextTreeStreamReader.on st  
+    tree_controller= ContextTreeStreamReader.on( st)  
     stream.each_line do  | l |
       tokens = (l.scan line_template).first
       indent =  tokens.first.size
       next_page = tree_controller.next_page(indent)           
-      next_page.create( node_class: tokens[1], value: tokens[2])
+p "next_page="+ next_page.inspect
+      next_page.context_nodes.create( node_class: tokens[1], value: tokens[2])
     end
     st
   end

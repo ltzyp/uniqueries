@@ -13,3 +13,53 @@ two:
   node_class: MyString
   value: MyString
   notes: MyString
+
+where_point_1:
+  context_tree: where_point
+  node_class: table
+  value:  t
+
+where_point_2:
+  context_tree: where_point
+  node_class: position
+  value:  top
+
+where_point_3:
+  context_tree: where_point
+  node_class: column
+  value:  f1
+
+where_point_4:
+  context_tree: where_point
+  parent_node: where_point_3
+  node_class: where
+  value:  1
+
+where_point_5:
+  context_tree: where_point
+  node_class: column
+  value:  f1
+
+where_point_6:
+  context_tree: where_point
+  parent_node: where_point_5
+  node_class: where
+  value:  aa
+
+where_point_7:
+  context_tree: where_point
+  node_class: position
+  value:  0
+
+where_point_8:
+  context_tree: where_point
+  node_class: column
+  value:  f3
+
+where_point_9:
+  context_tree: where_point
+  node_class: column
+  value:  f4
+
+
+
