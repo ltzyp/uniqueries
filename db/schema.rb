@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190908165508) do
+ActiveRecord::Schema.define(version: 20191014120657) do
 
   create_table "context_nodes", force: :cascade do |t|
     t.integer "context_tree_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20190908165508) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "context"
+    t.decimal "passage"
     t.index ["context_tree_id"], name: "index_context_nodes_on_context_tree_id"
     t.index ["parent_id"], name: "index_context_nodes_on_parent_id"
   end

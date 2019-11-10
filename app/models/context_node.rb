@@ -28,6 +28,26 @@ class ContextNode < ApplicationRecord
     self.context.merge!( hash||{} )
   end
 
+  def shadow
+    n= self.dup
+    self.context_nodes.each do | e |
+      n.context_nodes.build e.attributes
+    end
+    return n
+  end
+ 
+  def shadow? t2
+    return false unless self.essential_attributes == t2.essential_attributes
+    return false unless self.context_nodes.size == t2.context_nodes.size
+    context_nodes.zip( t2.context_nodes) do | a |
+      return false unless a.first.shadow? a.last
+    end 
+    return true
+  end
+  def essential_attributes
+    self.attributes.except *predefined_attribute_names  
+  end
+
 private
 
 
@@ -37,4 +57,12 @@ private
       self.context.merge!( parent_node.context||{})
     end
   end
+
+ def predefined_attribute_names
+    ["id","created_at","updated_at","parent_id"]
+  end
+
+
+
+
 end

@@ -1,65 +1,74 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+--- !omap
+<% treename= 'one'%>
+<%=treename%>_1:       { context_tree: <%=treename%>, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_2:       { context_tree: <%=treename%>, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_3:       { context_tree: <%=treename%>, node_class: table, value:  t, context: {} }
 
-one:
-  context_tree: one
-#  parent_node: one
-  node_class: MyString
-  value: MyString
-  notes: MyString
+<% treename= 'three'%>
+<%=treename%>_0:       { context_tree: <%=treename%>, node_class: table, value:  t, context: {1=>0} }
+<%=treename%>_01:       { context_tree: <%=treename%>, parent_node: <%=treename%>_0, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_02:       { context_tree: <%=treename%>, parent_node: <%=treename%>_0, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_011:      { context_tree: <%=treename%>, parent_node: <%=treename%>_01, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_021:      { context_tree: <%=treename%>, parent_node: <%=treename%>_02, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_1:       { context_tree: <%=treename%>, node_class: table, value:  t, context: {1=>0} }
+<%=treename%>_11:       { context_tree: <%=treename%>, parent_node: <%=treename%>_1, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_12:       { context_tree: <%=treename%>, parent_node: <%=treename%>_1, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_111:      { context_tree: <%=treename%>, parent_node: <%=treename%>_11, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_121:      { context_tree: <%=treename%>, parent_node: <%=treename%>_12, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_f:       { context_tree: <%=treename%>, node_class: table, value:  t, context: {1=>0} }
+<%=treename%>_f1:       { context_tree: <%=treename%>, parent_node: <%=treename%>_f, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_f2:       { context_tree: <%=treename%>, parent_node: <%=treename%>_f, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_f11:      { context_tree: <%=treename%>, parent_node: <%=treename%>_f1, node_class: table, value:  t, context: {1=>2} }
+<%=treename%>_f21:      { context_tree: <%=treename%>, parent_node: <%=treename%>_f2, node_class: table, value:  t, context: {2=>3} }
 
-two:
-  context_tree: two
-#  parent_node: two
-  node_class: MyString
-  value: MyString
-  notes: MyString
-
-where_point_1:
-  context_tree: where_point
-  node_class: table
-  value:  t
-
-where_point_2:
-  context_tree: where_point
-  node_class: position
-  value:  top
-
-where_point_3:
-  context_tree: where_point
-  node_class: column
-  value:  f1
-
-where_point_4:
-  context_tree: where_point
-  parent_node: where_point_3
-  node_class: where
-  value:  1
-
-where_point_5:
-  context_tree: where_point
-  node_class: column
-  value:  f1
-
-where_point_6:
-  context_tree: where_point
-  parent_node: where_point_5
-  node_class: where
-  value:  aa
-
-where_point_7:
-  context_tree: where_point
-  node_class: position
-  value:  0
-
-where_point_8:
-  context_tree: where_point
-  node_class: column
-  value:  f3
-
-where_point_9:
-  context_tree: where_point
-  node_class: column
-  value:  f4
-
+<% treename = 'where_point'%>
+<%=treename%>_t:       { context_tree: <%=treename%>, node_class: table, value:  t }
+<%=treename%>_pos_top: { context_tree: <%=treename%>, node_class: position,  value:  top }
+<%=treename%>_f1:      { context_tree: <%=treename%>, node_class: column, value:  f1 }
+<%=treename%>_f1_1:    { context_tree: <%=treename%>, parent_node: <%=treename%>_f1,node_class: where, value:  1 }
+<%=treename%>_f2:      { context_tree: <%=treename%>, node_class: column, value:  f2 }
+<%=treename%>_f2_aa:   { context_tree: <%=treename%>, parent_node: <%=treename%>_f2, node_class: where, value:  aa }
+<%=treename%>_pos_0:   { context_tree: <%=treename%>, node_class: position, value:  0 }
+<%=treename%>_f3:      { context_tree: <%=treename%>, node_class: column, value:  f3 }
+<%=treename%>_f4:      { context_tree: <%=treename%>, node_class: column, value:  f4 }
+<% treename = 'where_group'%>
+<%=treename%>_group:      { context_tree: <%=treename%>, node_class: group,  passage: 1 }
+<%=treename%>_t:       { context_tree: <%=treename%>, node_class: table, value:  t }
+<%=treename%>_f1:      { context_tree: <%=treename%>, node_class: column, value:  f1 }
+<%=treename%>_f1_1:    { context_tree: <%=treename%>, parent_node: <%=treename%>_f1,node_class: where, value:  1~10 }
+<%=treename%>_f2:      { context_tree: <%=treename%>, node_class: column, value:  f2 }
+<%=treename%>_f2_1:    { context_tree: <%=treename%>, parent_node: <%=treename%>_f2,node_class: where, value:  aa~ }
+<%=treename%>_f3:      { context_tree: <%=treename%>, node_class: column, value:  f3 }
+<%=treename%>_off:     { context_tree: <%=treename%>, node_class: group,  value:  off }
+<%=treename%>_f4:      { context_tree: <%=treename%>, node_class: column, value:  f4 }
+<%=treename%>_f4_sum: { context_tree: <%=treename%>, parent_node: <%=treename%>_f4 , node_class: aggregate, value:  sum }
+<% treename = 'calc'%>
+<%=treename%>_t:       { context_tree: <%=treename%>, node_class: table, value:  t }
+<%=treename%>_f1:      { context_tree: <%=treename%>, node_class: column, value:  f1 }
+<%=treename%>_f2:      { context_tree: <%=treename%>, node_class: column, value:  f2 }
+<%=treename%>_f3:      { context_tree: <%=treename%>, node_class: column, value:  f3 }
+<%=treename%>_f3_order: { context_tree: <%=treename%>, parent_node: <%=treename%>_f3 , node_class: order, value:  nulls_asc }
+<%=treename%>_f4:      { context_tree: <%=treename%>, node_class: column, value:  f4 }
+<%=treename%>_f4_func: { context_tree: <%=treename%>, parent_node: <%=treename%>_f4 , node_class: function, value:  f4-f3 }
+<%=treename%>_f4_min: { context_tree: <%=treename%>, parent_node: <%=treename%>_f4 , node_class: aggregate, value:  min }
+<%=treename%>_f4_pos: { context_tree: <%=treename%>, parent_node: <%=treename%>_f4 , node_class: position, value:  left }
+<% treename = 'where_tables'%>
+<%=treename%>_t1:       { context_tree: <%=treename%>, node_class: table, value:  t1 }
+<%=treename%>_t1_f1:    { context_tree: <%=treename%>, node_class: column, value:  f1 }
+<%=treename%>_t1_s1:    { context_tree: <%=treename%>, node_class: column, value:  s2 }
+<%=treename%>_t2:       { context_tree: <%=treename%>, node_class: table, value:  t2 }
+<%=treename%>_t2_f1:    { context_tree: <%=treename%>, node_class: column, value:  f1 }
+<%=treename%>_t2_f1_where:   { context_tree: <%=treename%>, parent_node: <%=treename%>_t2_f1, node_class: where, value:  <%=treename%>_t1 }
+<%=treename%>_t2_f1_hid:   { context_tree: <%=treename%>, parent_node: <%=treename%>_t2_f1, node_class: position, value:  hidden }
+<%=treename%>_t2_s1:      { context_tree: <%=treename%>, node_class: column, value:  s2 }
+<% treename = 'subdate'%>
+<%=treename%>_t1:       { context_tree: <%=treename%>, node_class: table, value:  t1 }
+<%=treename%>_s1:    { context_tree: <%=treename%>, node_class: column, value:  _s1 }
+<%=treename%>_s1_func: { context_tree: <%=treename%>, parent_node: <%=treename%>_s1 , node_class: function, value: "substr(s1,1,2)" }
+<%=treename%>_d1:  { context_tree: <%=treename%>, node_class: column, value:  _d1 }
+<%=treename%>_d1_func: { context_tree: <%=treename%>, parent_node: <%=treename%>_d1 , node_class: function, value:  "trunc(d1,'mm')" }
+<%=treename%>_d1_where:   { context_tree: <%=treename%>, parent_node: <%=treename%>_d1, node_class: where, value:  "date'2019-02-01'" }
+<%=treename%>_d1_hid:   { context_tree: <%=treename%>, parent_node: <%=treename%>_d1, node_class: position, value:  hidden }
 
 

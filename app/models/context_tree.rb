@@ -24,7 +24,12 @@ p "next_page="+ next_page.inspect
     st
   end
 
+  def clean_context
+    self.each { | n | p '+++'+ n.to_s; n.context= {} }
+  end
+
   def each &block
+    block.call context_node
     context_node.each( &block )     
   end 
 
@@ -46,6 +51,14 @@ p "next_page="+ next_page.inspect
     d =0
     self.each { | n | d = [n.level, d].max }
     d
+  end
+
+  def predefined_attribute_names
+    ["id","created_at","updated_at"]
+  end
+
+  def essential_attributes
+    self.attributes.except *predefined_attribute_names  
   end
 
 end

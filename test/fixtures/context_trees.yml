@@ -1,13 +1,27 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+zero:
+  text: 0
 
 one:
-  text: MyString
+  text: one
 
 two:
-  text: MyString
+  text: two
+
+three:
+  text: three
 
 where_point:
   text: t.f1[1],f2[aa]<|,f3,f4
 
-where_range:
+where_group:
   text: t.f1[1~10],f2[aa~],f3|,f4++
+
+calc:
+  text: t.f1,f2[f1~],f3^+,f4{f4-f3}*- 
+
+where_tables:
+  text: t1.k1,s1#t2.k1[t1.k1]^,s1
+
+subdate:
+  text: t.s1!2,d1!M[2019.2.]^
